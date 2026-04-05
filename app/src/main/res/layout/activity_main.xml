@@ -7,11 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchBar"
+        android:queryHint="serach notes"
+        android:layout_margin="4dp"
+        android:iconifiedByDefault="true"
+        android:background="@drawable/search_bar_background"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
+        android:layout_below="@+id/searchBar"
         android:id="@+id/recViewNotes"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,7 +29,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         app:srcCompat="@drawable/ic_add"
-        android:layout_marginTop="625dp"
+        android:layout_marginTop="725dp"
         android:layout_marginLeft="325dp" />
 
 

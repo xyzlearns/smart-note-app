@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity{
     RecViewAdapter adapter;
-
+    SearchView searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,43 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.clearFocus();
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<Notes> filterdNotes = new ArrayList<>();
+                ArrayList<Notes> allNotes = Utils.getInstance(MainActivity.this).getNotes();
+                for(Notes n: allNotes){
+                    if(n.getTitle().toLowerCase().contains(newText.toLowerCase()) || n.getNote().toLowerCase().contains(newText.toLowerCase())){
+                        filterdNotes.add(n);
+                    }
+                }
+
+                if(filterdNotes.isEmpty()){
+                    Toast.makeText(MainActivity.this, "no such notes found", Toast.LENGTH_SHORT).show();
+                }else {
+                    adapter.search(filterdNotes);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchBar.clearFocus();
+
+
+                return false;
+            }
+        });
+
+        searchBar.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                adapter.search(new ArrayList<Notes>());
+                return false;
+            }
+        });
 
 
 

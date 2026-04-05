@@ -23,6 +23,19 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ViewHold
     Context context;
 
     ArrayList<Notes> notes = new ArrayList<>();
+    ArrayList<Notes> allNotes;
+
+
+    public void search(ArrayList<Notes> filteredNotes){
+
+        notes.clear();
+        if(filteredNotes.isEmpty()){
+            notes.addAll(allNotes);
+        } else {
+            notes.addAll(filteredNotes);
+        }
+        notifyDataSetChanged();
+    }
 
     public RecViewAdapter(Context context) {
         this.context = context;
@@ -71,6 +84,7 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ViewHold
 
                     // Remove from adapter list
                     notes.remove(pos);
+                    allNotes.remove(note);
 
                     // Notify RecyclerView properly
                     notifyItemRemoved(pos);
@@ -88,7 +102,8 @@ public class RecViewAdapter extends RecyclerView.Adapter<RecViewAdapter.ViewHold
     }
 
     public void setNotes(ArrayList<Notes> notes) {
-        this.notes = notes;
+        this.notes = new ArrayList<>(notes);
+        allNotes = new ArrayList<>(notes);
         notifyDataSetChanged();
     }
 
